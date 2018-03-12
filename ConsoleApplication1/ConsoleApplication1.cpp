@@ -4,11 +4,6 @@
 #include <locale.h>
 #include "tictac.h"
 
-void poker()
-{
-
-}
-
 int main()
 {
 	setlocale(LC_ALL, "");
@@ -21,7 +16,7 @@ int main()
 		switch (i)
 		{
 		case 1:
-			poker();
+			std::cout << "not ready yet" << std::endl;
 			break;
 		case 2:
 			tictac();
@@ -29,6 +24,7 @@ int main()
 			break;
 		case 3:
 			Snake();
+			system("cls");
 			break;
 		case 4:
 			std::cout << "no game here" << std::endl;
