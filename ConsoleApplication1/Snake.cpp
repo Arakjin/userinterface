@@ -26,7 +26,7 @@ void Draw()
 	system("cls"); // tyhjätään näyttö (aiheuttaa vilkkumisen)
 
 				   // piirretään kentän rajat
-
+	
 				   // ensin "yläraja"
 	for (int i = 0; i < width + 2; i++)
 	{
@@ -88,6 +88,8 @@ void Input()
 			break;
 		case 'x':
 			gameOver = true; // lopetetaan peli
+			Sleep(1500);
+			std::cout << "Quitting game" << std::endl;
 			break;
 		}
 	}
@@ -119,7 +121,11 @@ void Logic()
 	// tarkistaa, osuuko mato pelikentän reunoihin
 	// jos osuu -> game over
 	if (x > width || x < 0 || y > height || y < 0)
+	{
 		gameOver = true;
+		Sleep(1500);
+		std::cout << "Game Over!" << std::endl;
+	}
 	if (x == fruitX && y == fruitY)
 	{
 		score += 10;
@@ -127,7 +133,6 @@ void Logic()
 		fruitY = rand() % height;
 	}
 }
-
 Snake::Snake()
 {
 	Setup(); // metodi, joka alustaa pelin
@@ -141,8 +146,6 @@ Snake::Snake()
 		Logic(); // metodi, joka sisältää pelin logiikan = miten matoa liikutetaan
 		Sleep(100);
 	}
-	std::cout << "Game Over!" << std::endl;
-	_getch();
 	
 }
 
