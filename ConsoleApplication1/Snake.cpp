@@ -3,7 +3,6 @@
 
 Snake::Snake()
 {
-	std::string str = "Program paused";
 	std::cout << "#######################\nSnake? Snake?! SNAAAAKEEEE!!\n#######################" << std::endl;
 }
 
