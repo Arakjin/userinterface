@@ -23,6 +23,7 @@ int main()
 			system("cls");
 			break;
 		case 3:
+			system("cls");
 			Snake();
 			system("cls");
 			break;

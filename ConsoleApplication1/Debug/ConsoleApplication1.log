@@ -1,3 +1,2 @@
 ﻿  Snake.cpp
-  ConsoleApplication1.vcxproj -> M:\Ohjelmointi koulu\pelikokoelma\ui\Debug\ConsoleApplication1.exe
-  ConsoleApplication1.vcxproj -> M:\Ohjelmointi koulu\pelikokoelma\ui\Debug\ConsoleApplication1.pdb (Full PDB)
+m:\ohjelmointi koulu\pelikokoelma\ui\consoleapplication1\snake.cpp(1): fatal error C1041: cannot open program database 'M:\Ohjelmointi koulu\pelikokoelma\ui\ConsoleApplication1\Debug\vc140.idb'; if multiple CL.EXE write to the same .PDB file, please use /FS

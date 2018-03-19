@@ -7,6 +7,8 @@ const int height = 20; // ja korkeus
 int x, y; // madon häntäpäiden sijainnit
 int fruitX, fruitY; // hedelmien sijainnit
 int score; // pelissä kerätyt pisteet
+int nTail; // hännän pituus
+int tailX[100], tailY[100]; // hännän koordinaatit
 enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN }; // suunnat, mihin matoa voidaan liikuttaa
 eDirection dir; // madon suunta
 
@@ -23,11 +25,12 @@ void Setup()
 
 void Draw()
 {
-	system("cls"); // tyhjätään näyttö (aiheuttaa vilkkumisen)
+	//system("cls"); // tyhjätään näyttö (aiheuttaa vilkkumisen)
 
 				   // piirretään kentän rajat
-	
+
 				   // ensin "yläraja"
+
 	for (int i = 0; i < width + 2; i++)
 	{
 		std::cout << "#";
@@ -47,9 +50,25 @@ void Draw()
 			else if (i == fruitY && j == fruitX)
 				std::cout << "F"; // piirretään hedelmä
 			else
-				std::cout << " "; // piirretään tyhjä
+			{
+				bool print = false;
+				for (int k = 0; k < nTail; k++)
+				{
 
-							 // jos ollaan melkein rivin lopussa
+					if (tailX[k] == j && tailY[k] == i)
+					{
+						std::cout << "o";
+						print = true;
+					}
+				}
+				if (!print)
+				{
+					std::cout << " "; // piirretään tyhjä
+				}
+			}
+
+
+			// jos ollaan melkein rivin lopussa
 			if (j == width - 1)
 				std::cout << "#";
 		}
@@ -64,6 +83,8 @@ void Draw()
 	std::cout << std::endl;
 
 	std::cout << "Score: " << score << std::endl;
+	std::cout << "Use asdw keys to move the snake" << std::endl;
+	std::cout << "Press x to end the game" << std::endl;
 }
 
 void Input()
@@ -87,9 +108,9 @@ void Input()
 			dir = DOWN; // kun painetaan a:ta -> mennään alas
 			break;
 		case 'x':
-			gameOver = true; // lopetetaan peli
-			Sleep(1500);
 			std::cout << "Quitting game" << std::endl;
+			Sleep(1500);
+			gameOver = true; // lopetetaan peli
 			break;
 		}
 	}
@@ -97,21 +118,40 @@ void Input()
 
 void Logic()
 {
+	int prevX = tailX[0];
+	int prevY = tailY[0];
+	int prev2X, prev2Y;
+	tailX[0] = x;
+	tailY[0] = y;
+
+	for (int i = 1; i < nTail; i++)
+	{
+		prev2X = tailX[i];
+		prev2Y = tailY[i];
+		tailX[i] = prevX;
+		tailY[i] = prevY;
+		prevX = prev2X;
+		prevY = prev2Y;
+	}
 	switch (dir)
 	{
 	case LEFT: // liikutaan x-akselilla vasemmalle
+		system("cls");
 		Draw();
 		x--;
 		break;
 	case RIGHT: // liikutaan x-akselilla oikealle
+		system("cls");
 		Draw();
 		x++;
 		break;
 	case UP: // liikutaan y-akselilla ylös
+		system("cls");
 		Draw();
 		y--;
 		break;
 	case DOWN: // liikutaan y-akselilla alas
+		system("cls");
 		Draw();
 		y++;
 		break;
@@ -122,31 +162,42 @@ void Logic()
 	// jos osuu -> game over
 	if (x > width || x < 0 || y > height || y < 0)
 	{
-		gameOver = true;
-		Sleep(1500);
 		std::cout << "Game Over!" << std::endl;
+		Sleep(1500);
+		gameOver = true;
 	}
+	// jos mato osuu omaan häntäänsä -> gameover
+	for (int i = 0; i < nTail; i++)
+	{
+		if (tailX[i] == x && tailY[i] == y)
+		{
+			std::cout << "Game Over!" << std::endl;
+			Sleep(1500);
+			gameOver = true;
+		}
+	}
+
 	if (x == fruitX && y == fruitY)
 	{
 		score += 10;
 		fruitX = rand() % width;
 		fruitY = rand() % height;
+		nTail++;
 	}
 }
+
 Snake::Snake()
 {
 	Setup(); // metodi, joka alustaa pelin
 	Draw(); // metodi, joka "piirtää" madon
 			// kun peli on käynnissä
-
 	while (!gameOver)
 	{
 		//Draw(); // 
 		Input(); // metodi, joka lukee painetut näppäimet
 		Logic(); // metodi, joka sisältää pelin logiikan = miten matoa liikutetaan
-		Sleep(100);
+		Sleep(150);
 	}
-	
 }
 
 Snake::~Snake()
